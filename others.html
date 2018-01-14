@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JavaScript by Abby</title>
+</head>
+<body>
+	<button onclick="sayHello.call(p1)">click</button>
+	<button onclick="update.call(p1,11,22,33)">btn2</button>
+	<script type="text/javascript">
+//第一题
+// 	function f1(){
+// 　　　　var n=999;
+
+// 　　　　nAdd=function(){n+=1}//匿名函数是全局的
+
+// 　　　　function f2(){
+// 　　　　　　alert(n);
+// 　　　　}
+// 　　　　return f2;
+// 　　}
+// 　　var result=f1();
+// 　　result();
+// 　　nAdd();
+// 　　result();
+
+
+// //第二题
+// 　var name = "Hi Window";
+// 　var object = {
+// 　　　　name : "My Object",
+// 　　　　getNameFunc : function(){
+// 　　　　　　return function(){
+// 			   return this.name;
+// 　　　　　};
+// 　　　　}
+// };
+// alert(object.getNameFunc()());
+
+
+//alert(object.getNameFunc().call(object));
+
+
+// //第三题
+	// var y = 2;
+	// function test(){
+	// 	this.y = 1;
+
+	// }
+
+	// test();//window调用了test()  y属于window的y 全局变量
+	// alert(y);
+
+	// t1 = new test();
+	// alert(y);
+
+
+
+//第四题
+// function outerFun()
+// {
+// 	var a=0;
+// 	function innerFun()
+// 	{
+// 		a++;
+// 		alert(a);
+// 	}
+// 	return innerFun;
+// }
+// var obj=outerFun();
+// obj();
+// obj();
+// var obj2=outerFun();
+// obj2();
+// obj2();
+
+//第五题
+// var someone={
+// 	name:'Bob',
+// 	showName: function(){
+// 		alert(this.name);
+// 	}
+// }
+// var other = {
+// 	name:'Karen',
+// 	showName:someone.showName
+// }
+// other.showName();
+
+//第六题
+// var p1 = {score:88,age:27,size:7};
+// var update=function(a,b,c){
+// 	this.a = a;
+// 	this.b = b;
+// 	this.c = c;
+
+// 	alert(this.score+a+b);
+// }
+
+// //第七题 **********
+// var a = 10;
+// function test(){
+// 	// a = 5;
+// 	// alert(a);
+// 	// alert(this.a);
+// 			var a;
+// 			alert(this.a);
+// 			alert(a);
+// }
+// test();
+		// var t1 = new test();
+
+//第八题
+// var sayName = function(){
+// 	console.log('My name is '+this.name);
+// }
+// var stacey = {
+// 	name:'Stacey',
+// 	age:34
+// }
+
+// sayName();
+
+
+//第九题
+// function outerFun()
+// {
+// 	var a =0;
+// 	alert(a);
+// }
+// var a=4;
+// outerFun();
+// alert(a);
+
+			// 因为在函数内部使用了var关键字 维护a的作用域在outFun()内部.
+
+// //第十题
+// function outerFun()
+// {
+//  //没有var
+//  a =0;
+//  alert(a);
+// }
+// var a=4;
+// outerFun();
+// alert(a);
+
+function wordBoggle(board, words) {
+    if (board == null || board.length == 0 || board[0].length == 0) {
+        return []
+    }
+    let res = []
+    for (let i = 0; i < words.length; i++) {
+    		let newArray = board.map(arr => arr.slice())
+        if (exist(newArray, words[i])) {
+            res.push(words[i])
+        }
+    }
+    return res
+}
+
+function exist(board, word) {
+    let m = board.length, n = board[0].length
+    for (let i = 0; i < m; i++) {
+        for (let j = 0; j < n; j++) {
+            if (board[i][j] == word[0]) {
+                board[i][j] ^= 255
+                if (dfs(board, i, j, m, n, word, 1)) {
+                    return true
+                }
+                board[i][j] ^= 255
+            }
+        }
+    }
+    return false
+}
+
+function dfs(board, x, y, m, n, word, pos) {
+    if(pos == word.length) {
+        return true
+    }
+    dir = [[-1,0], [1,0], [0,-1], [0,1], [-1,-1], [-1, 1], [1,1], [1,-1]]
+    for (let i = 0; i < dir.length; i++) {
+        let nx = x + dir[i][0], ny = y + dir[i][1]
+        if (nx < 0 || nx >= m || ny < 0 || ny >= n || board[nx][ny] != word[pos]) {
+            continue
+        }
+        board[nx][ny] ^= 255
+        if (dfs(board, nx, ny, m, n, word, pos + 1)) {
+            return true
+        }
+        board[nx][ny] ^= 255
+    }
+    return false
+}
+
+board = [["R","L","D"],
+ ["U","O","E"],
+ ["C","S","O"]]
+words = ["CODE",
+ "SOLO",
+ "RULES",
+ "COOL"]
+
+ console.log(wordBoggle(board, words).sort())
+
+ board = [["G","T"],
+ ["O","A"]]
+words = ["TOGGLE",
+ "GOAT",
+ "TOO",
+ "GO"]
+ console.log(wordBoggle(board, words).sort())
+
+</script>
+</body>
+</html>
